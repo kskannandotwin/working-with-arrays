@@ -69,7 +69,9 @@ const displayMovements = function (movements) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
     <div class="movements__row">
-      <div class="movements__type movements__type--${type}">${i + 1} ${type}</div>      
+      <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>      
       <div class="movements__value">${mov}€</div>
     </div>
     `;
@@ -80,3 +82,28 @@ const displayMovements = function (movements) {
 
 displayMovements(account1.movements);
 // console.log(containerMovements.innerHTML);
+
+const movements = [200, 450, -400, 3000, -650, -130, 70, 1300];
+
+const euroToUsd = 1.1;
+
+// const movementsUsd = movements.map(function(mov) {
+//   return mov * euroToUsd;
+// })
+
+const movementsUsd = movements.map(mov => mov * euroToUsd);
+
+console.log(movements);
+console.log(movementsUsd);
+
+const movementsUSDfor = [];
+for (const mov of movements) movementsUSDfor.push(mov * euroToUsd);
+console.log(movementsUSDfor);
+
+const movemntsDescriptions = movements.map(
+  (mov, i) =>
+    `Movement ${i + 1}: You ${mov > 0 ? 'deposited' : 'withdraw'} ${Math.abs(
+      mov
+    )}`
+);
+console.log(movemntsDescriptions);
