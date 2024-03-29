@@ -71,8 +71,9 @@ const displayMovements = function (movements) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `
     <div class="movements__row">
-      <div class="movements__type movements__type--${type}">${i + 1
-      } ${type}</div>      
+      <div class="movements__type movements__type--${type}">${
+      i + 1
+    } ${type}</div>      
       <div class="movements__value">${mov}€</div>
     </div>
     `;
@@ -134,7 +135,7 @@ const updateUI = function (acc) {
 
   // display summary
   calcDisplaySummary(acc);
-}
+};
 
 // event handler
 let currentAccount;
@@ -143,12 +144,16 @@ btnLogin.addEventListener('click', function (e) {
   // prevent form from submitting
   e.preventDefault();
 
-  currentAccount = accounts.find(acc => acc.username === inputLoginUsername.value);
+  currentAccount = accounts.find(
+    acc => acc.username === inputLoginUsername.value
+  );
   console.log(currentAccount);
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // display ui and message
-    labelWelcome.textContent = `Welcome back, ${currentAccount.owner.split(' ')[0]}`;
+    labelWelcome.textContent = `Welcome back, ${
+      currentAccount.owner.split(' ')[0]
+    }`;
     containerApp.style.opacity = 100;
 
     // clear input fields
@@ -163,10 +168,17 @@ btnLogin.addEventListener('click', function (e) {
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
   const amount = Number(inputTransferAmount.value);
-  const receiverAcc = accounts.find(acc => acc.username === inputTransferTo.value);
+  const receiverAcc = accounts.find(
+    acc => acc.username === inputTransferTo.value
+  );
   inputTransferAmount.value = inputTransferTo.value = '';
 
-  if (amount > 0 && receiverAcc && currentAccount.balance >= amount && receiverAcc?.username !== currentAccount.username) {
+  if (
+    amount > 0 &&
+    receiverAcc &&
+    currentAccount.balance >= amount &&
+    receiverAcc?.username !== currentAccount.username
+  ) {
     // doing the transfer
     currentAccount.movements.push(-amount);
     receiverAcc.movements.push(amount);
@@ -174,4 +186,27 @@ btnTransfer.addEventListener('click', function (e) {
     // update UI
     updateUI(currentAccount);
   }
-})
+});
+
+btnClose.addEventListener('click', function (e) {
+  e.preventDefault();  
+
+  if (
+    inputCloseUsername.value === currentAccount.username &&
+    Number(inputClosePin.value) === currentAccount.pin
+  ) {
+    const index = accounts.findIndex(
+      acc => acc.username === currentAccount.username
+    );
+    console.log(index);
+    // .indexOf(23)
+
+    // delete account
+    accounts.splice(index, 1);
+
+    // hide UI
+    containerApp.style.opacity = 0;
+  }
+
+  inputCloseUsername.value = inputClosePin.value = '';
+});
